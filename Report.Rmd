@@ -1,8 +1,14 @@
 ---
 title: "Simulation of Exponential Distribution using R"
+
 author: "Carlos Hernández"
 date: "25/9/2020"
-output: html_document
+output:
+  pdf_document:
+    latex_engine: xelatex
+    highlight: espresso
+    toc: true
+    toc_depth: 4
 ---
 
 ```{r setup, include=FALSE}
@@ -50,8 +56,9 @@ data <- data.frame(value = c(t(rexp(1000, rate = 1))))
 
 ggplot(data, aes(x=value)) + 
   geom_histogram(aes(y=..density..),binwidth=.25, col="black", fill="lightblue")+
-    labs(title= "Exponential distribution with mean = 1", caption="Produced by Carlos Hernández") +
-   xlab("x") +
+  labs(title= "Exponential distribution with mean = 1", 
+       caption="Produced by Carlos Hernández") +
+  xlab("x") +
   ylab("y")
 
 ```
@@ -73,7 +80,9 @@ expData <- data.frame(value = c(t(expData))) # convert to data frame
 # plot
 ggplot(expData, aes(x=value)) + 
   geom_histogram(aes(y=..density..), binwidth=.8,colour="black", fill="lightblue") +
-   labs(title= "Exponential distribution with lambda = 0.2 and 40 observations", subtitle = "Replicated 1000 times", caption="Produced by Carlos Hernández") +
+   labs(title= "Exponential distribution with lambda = 0.2 and 40 observations", 
+        subtitle = "Replicated 1000 times", 
+        caption="Produced by Carlos Hernández") +
   xlab("x") +
   ylab("exp(x)")
 
@@ -89,7 +98,9 @@ data <- data.frame(value = c(t(data)), size = 40)
 
 ggplot(data, aes(x=value)) + 
   geom_histogram(aes(y=..density..),binwidth=.25, col="black", fill="lightblue") +
-  labs(title= "Average of 40 random exponential distribution", subtitle = "Replicated 1000 times", caption="Produced by Carlos Hernández") +
+  labs(title= "Average of 40 random exponential distribution", 
+       subtitle = "Replicated 1000 times", 
+       caption="Produced by Carlos Hernández") +
   xlab("x") +
   ylab("mean")
 
@@ -105,15 +116,19 @@ theoretical_mu <- 1/lambda # calculate theoretical mean
 sample_mu <-mean(data$value) # calculate experimental mean
 
 ggplot(data, aes(x=value)) + 
-  stat_function(fun=dnorm,
-                         color="black",
-                         args=list(mean=mean(data$value), 
-                                  sd=sd(data$value)))+
+  stat_function(fun=dnorm, 
+                color="black", 
+                args=list(mean=mean(data$value), 
+                sd=sd(data$value)))+
   geom_vline(xintercept = theoretical_mu, colour="red") +
-  geom_text(aes(x=theoretical_mu-.25, label="\nTheoretical mean", y=.2), colour="red", angle=90, text=element_text(size=11)) +
+  geom_text(aes(x=theoretical_mu-.25, 
+                label="\nTheoretical mean", y=.2), 
+            colour="red", angle=90, text=element_text(size=11)) +
   geom_vline(xintercept = sample_mu, colour="green")+
-  geom_text(aes(x=sample_mu+.05, label="\nSample mean", y=.2), colour="green", angle=90, text=element_text(size=11)) +
-  labs(title= "Theoretical mean vs sample mean", caption="Produced by Carlos Hernández") +
+  geom_text(aes(x=sample_mu+.05, label="\nSample mean", y=.2), 
+            colour="green", angle=90) + 
+  labs(title= "Theoretical mean vs sample mean", 
+       caption="Produced by Carlos Hernández") +
   xlab("x") +
   ylab("y")
 
@@ -131,15 +146,15 @@ theoretical_variance <- 1/(n * lambda^2)
 sample_variance <- round(var(data$value),3)
 
 ggplot(data, aes(x=value)) + 
-  stat_function(fun=dnorm,
-                         color="black",
-                         args=list(mean=mean(data$value), 
-                                  sd=sd(data$value)))+
+  stat_function(fun=dnorm, color="black", args=list(mean=mean(data$value), sd=sd(data$value)))+
   geom_vline(xintercept = sample_mu, colour="gray", linetype="dashed")+
   geom_vline(xintercept = theoretical_mu, colour="gray", linetype="dashed")+
-  geom_segment(aes(x = sample_mu, y = 0.36, xend =sample_mu + sample_variance, yend = 0.36), colour="green") +
-  geom_segment(aes(x = theoretical_mu - theoretical_variance, y = 0.35, xend =theoretical_mu, yend = 0.35), colour="red") +
-  labs(title= "Theoretical variance vs sample variance", caption="Produced by Carlos Hernández") +
+  geom_segment(aes(x = sample_mu, y = 0.36, xend =sample_mu + 
+                     sample_variance, yend = 0.36), colour="green") +
+  geom_segment(aes(x = theoretical_mu - theoretical_variance, y = 0.35, 
+                   xend =theoretical_mu, yend = 0.35), colour="red") +
+  labs(title= "Theoretical variance vs sample variance", 
+       caption="Produced by Carlos Hernández") +
   geom_text(aes(x=sample_mu+.55, label="\nSample variance", y=.42), colour="green") +
   geom_text(aes(x=theoretical_mu-.65, label="\nTheoretical variance", y=.33), colour="red") +
   xlab("x") +
@@ -160,7 +175,9 @@ ggplot(data, aes(x=value)) +
                          color="blue",
                          args=list(mean=mean(data$value), 
                                   sd=sd(data$value)))+
-  labs(title= "Average of 40 random exponential distribution", subtitle = "Replicated 1000 times", caption="Produced by Carlos Hernández") +
+  labs(title= "Average of 40 random exponential distribution", 
+       subtitle = "Replicated 1000 times", 
+       caption="Produced by Carlos Hernández") +
   xlab("x") +
   ylab("y")
 ```
